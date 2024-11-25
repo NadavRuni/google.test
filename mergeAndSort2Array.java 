@@ -1,0 +1,59 @@
+public static Integer[] mergeAndSort(Integer[] arr1, Integer[] arr2) {
+    // Combine the two arrays into one
+    Integer[] combined = new Integer[arr1.length + arr2.length];
+    int i = 0;
+    for (; i < arr1.length; i++) {
+        combined[i] = arr1[i];
+    }
+    for (int j = 0; j < arr2.length; j++) {
+        combined[i + j] = arr2[j];
+    }
+
+    // Sort the combined array using mergeSort
+    return mergeSort(combined);
+}
+
+public static Integer[] mergeSort(Integer[] arr) {
+    if (arr.length <= 1) {
+        return arr;
+    }
+    int mid = arr.length / 2;
+    Integer[] left = mergeSort(copyOfRange(arr, 0, mid));
+    Integer[] right = mergeSort(copyOfRange(arr, mid, arr.length));
+    return merge(left, right);
+}
+
+private static Integer[] merge(Integer[] left, Integer[] right) {
+    int leftSize = left.length;
+    int rightSize = right.length;
+    Integer[] result = new Integer[leftSize + rightSize];
+    int i = 0, j = 0, k = 0;
+
+    while (i < leftSize && j < rightSize) {
+        if (left[i] <= right[j]) {
+            result[k++] = left[i++];
+        } else {
+            result[k++] = right[j++];
+        }
+    }
+
+    while (i < leftSize) {
+        result[k++] = left[i++];
+    }
+
+    while (j < rightSize) {
+        result[k++] = right[j++];
+    }
+
+    return result;
+}
+
+private static Integer[] copyOfRange(Integer[] arr, int from, int to) {
+    Integer[] result = new Integer[to - from];
+    for (int i = 0; i < result.length; i++) {
+        result[i] = arr[from + i];
+    }
+    return result;
+}
+
+
